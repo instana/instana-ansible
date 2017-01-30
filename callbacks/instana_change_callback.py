@@ -22,7 +22,7 @@ class CallbackModule(CallbackBase):
             'title': title,
             'text': text,
             'duration': duration,
-            'severity': severity / 10.0
+            'severity': severity
         }))
 
         try:
