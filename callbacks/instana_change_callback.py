@@ -34,7 +34,7 @@ class CallbackModule(CallbackBase):
         self.playbook = os.path.basename(playbook._file_name)
         self.post_event("Ansible playbook started",
           "Playbook '%s' started on '%s'" % (self.playbook, socket.gethostname()),
-          0, 0)
+          0, -1)
 
     def v2_playbook_on_stats(self, stats):
         summarize_stat = {}
@@ -43,7 +43,7 @@ class CallbackModule(CallbackBase):
 
         if self.errors == 0:
             status = "OK"
-            severity = 0
+            severity = -1 
         else:
             status = "FAILED"
             severity = 1
@@ -53,7 +53,7 @@ class CallbackModule(CallbackBase):
           0, severity)
 
     def v2_runner_on_failed(self, result, ignore_errors=False):
-        severity = 0
+        severity = -1
         if ignore_errors:
             self.errors += 1
             severity = 1
@@ -63,7 +63,7 @@ class CallbackModule(CallbackBase):
           0, severity)
 
     def v2_runner_on_async_failed(self, result, ignore_errors=False):
-        severity = 0
+        severity = -1
         if ignore_errors:
             self.errors += 1
             severity = 1
@@ -75,7 +75,7 @@ class CallbackModule(CallbackBase):
     def v2_runner_on_ok(self, result):
         self.post_event("Ansible task success",
           "Task '%s' from the playbook '%s' successfully ran on '%s'" % (result._task, self.playbook, result._host.name),
-          0, 0)
+          0, -1)
 
     def v2_runner_on_skipped(self, result):
         self.post_event("Ansible task skipped",
